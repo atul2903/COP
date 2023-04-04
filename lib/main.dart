@@ -40,11 +40,12 @@ class HomePage extends StatelessWidget {
             
             case ConnectionState.done:
              final user=FirebaseAuth.instance.currentUser;
+             print(user);
              if(user?.emailVerified??false){
               print('your email is verified');
              }
              else{
-              print("your email isn't verified");
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => verifyEmail(),));
              }
              return Text('done');
               
@@ -59,3 +60,28 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class verifyEmail extends StatefulWidget {
+  const verifyEmail({super.key});
+
+  @override
+  State<verifyEmail> createState() => _verifyEmailState();
+}
+
+class _verifyEmailState extends State<verifyEmail> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Verify email')),
+      body:Column(
+        children: [
+          Text('verify your email address'),
+          TextButton(onPressed: 
+          () async{ final user=FirebaseAuth.instance.currentUser;
+          await user?.sendEmailVerification();
+          }
+          , child: Text('click here to verify email '))
+        ],
+      ) ,
+    );
+}
+}
