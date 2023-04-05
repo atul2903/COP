@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/views/verifyEmail.dart';
 
 import '../firebase_options.dart';
 
@@ -76,10 +77,51 @@ class _LoginViewState extends State<LoginView> {
             }
             }
             on FirebaseAuthException catch (e){
-              if(e.code=='user-not-found')
+              if(e.code=='user-not-found'){
+                
+             AlertDialog alert= AlertDialog(  
+    title: Text("Email Error"),  
+    content: Text("User not Found."),  
+     
+      
+  );  
+ showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  );  
+
               print('user not found');
-              else{
+              }
+              else if(e.code =='invalid-email'){
                 print(e.code);
+                AlertDialog alert= AlertDialog(  
+    title: Text("Alert"),  
+    content: Text("Please Enter The Above Fields to Login."),  
+     
+      
+  );  
+ showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  );  
+              }
+              else{
+                AlertDialog alert= AlertDialog(  
+    title: Text("Password Error"),  
+    content: Text("Please Enter The Correct Password."),  
+     
+      
+  );  
+ showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  );  
               }
             } 
             },child: Center(child: const Text('Login')),),
@@ -91,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
         );
               
         default:
-         return const Text('Loading....');
+         return Center(child: CircularProgressIndicator());
           }
          
         },

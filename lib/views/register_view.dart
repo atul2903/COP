@@ -35,6 +35,7 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('Register page')),
+        backgroundColor: Colors.yellow,
       ),
       body: FutureBuilder(
         
@@ -68,13 +69,38 @@ class _RegisterViewState extends State<RegisterView> {
                 on FirebaseAuthException  catch(e){
                   if(e.code=='weak-password'){
                     print('Weak password');
+                                    AlertDialog alert= AlertDialog(  
+    title: Text("Alert"),  
+    content: Text("Enter A Strong Password."),  
+     
+      
+  );  
+ showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  ); 
                   }
                   else if(e.code=='invalid-email'){
                     print('Invalid email');
+                                    AlertDialog alert= AlertDialog(  
+    title: Text("Error"),  
+    content: Text("Please Enter A Valid Email."),  
+     
+      
+  );  
+ showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  ); 
 
                   }
+                  
                   else{
-                    print(e.code);
+                    print(e);
                   }
 
                 }
