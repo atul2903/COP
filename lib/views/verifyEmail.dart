@@ -19,6 +19,20 @@ class _verifyEmailState extends State<verifyEmail> {
           TextButton(onPressed: 
           () async{ final user=FirebaseAuth.instance.currentUser;
           await user?.sendEmailVerification();
+          AlertDialog alert= AlertDialog(  
+    title: Text("Notice"),  
+    content: Text("An Email Has Been Sent to Your Account !"),  
+     
+      
+  );  
+ showDialog(  
+    context: context,  
+    builder: (BuildContext context) {  
+      return alert;  
+    },  
+  );  
+
+
           }
           , child: Text('click here to verify email '))
         ],

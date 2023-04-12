@@ -1,7 +1,10 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_application_1/views/login_page.dart';
+import 'package:flutter_application_1/views/post.dart';
 import 'package:flutter_application_1/views/register_view.dart';
 import 'package:flutter_application_1/views/verifyEmail.dart';
 import '../firebase_options.dart';
@@ -15,10 +18,11 @@ void main() {
         
         primarySwatch: Colors.blue,
       ),
-      home: const LoginView() ,
+      home: const LoginView(),
       routes: {
         '/register' : (context)=>RegisterView(),
         '/login/':(context) => (LoginView()),
+        '/post/':(context)=>(post()),
       },
     ));
 }
@@ -48,33 +52,40 @@ class HomePage extends StatelessWidget {
           },)
         ],
       ),
-      body: FutureBuilder(
-        
-        future: Firebase.initializeApp(
-         options: DefaultFirebaseOptions.currentPlatform,
-       ),
-
-        builder: (context, snapshot) {
-
-          switch(snapshot.connectionState){
+      body: Column(
+        children: [
+          FutureBuilder(
             
-            case ConnectionState.done:
-             final user=FirebaseAuth.instance.currentUser;
-             print(user);
-             if(user?.emailVerified??false){
-              print('your email is verified');
-             }
-             else{
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => verifyEmail(),));
-             }
-             return Text('done');
-              
-        default:
-         return const Text('Loading....');
-          }
-         
-        },
-        
+            future: Firebase.initializeApp(
+             options: DefaultFirebaseOptions.currentPlatform,
+           ),
+
+            builder: (context, snapshot) {
+
+              switch(snapshot.connectionState){
+                
+                case ConnectionState.done:
+                 final user=FirebaseAuth.instance.currentUser;
+                 print(user);
+                 if(user?.emailVerified??false){
+                  print('your email is verified');
+                 }
+                 else{
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => verifyEmail(),));
+                 }
+                 return Text('done');
+                  
+            default:
+             return const Text('Loading....');
+              }
+             
+            },
+            
+          ),
+        TextButton(onPressed: () {
+          Navigator.of(context).pushNamedAndRemoveUntil('/post/', (route) => false);
+        }, child: Icon(Icons.add)) 
+        ],
       ),
     );
   }
